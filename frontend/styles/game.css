@@ -9,7 +9,7 @@
 
 .game-icon-number-bottle {
   position: absolute;
-  font-family: 'noteworthy', monospace;
+  font-family: "noteworthy", monospace;
   color: blue;
   font-weight: bold;
   top: 0;
@@ -19,10 +19,22 @@
 
 .game-icon-number-shirt {
   position: absolute;
-  font-family: 'noteworthy', monospace;
+  font-family: "noteworthy", monospace;
   color: blue;
   font-weight: bold;
   top: 0;
   left: 5px;
   content: var(--count);
+}
+
+.chest {
+  background-image: url("https://media.discordapp.net/attachments/995303058131128371/995415041409036388/Treasure_Chest_3.png");
+  -webkit-transition: background-image 0.2s ease;
+  transition: background-image 0.2s ease;
+}
+
+.chest:hover {
+  background-image: url("https://cdn.discordapp.com/attachments/995303058131128371/995415041669075056/Open_Chest_2.png");
+  -webkit-transition: background-image 0.2s ease;
+  transition: background-image 0.2s ease;
 }

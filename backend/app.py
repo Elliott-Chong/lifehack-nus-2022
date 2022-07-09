@@ -55,8 +55,8 @@ def run_detector(detector, path):
 
     print(type(result))
     # output_json_2(result)
-    print(f"SECOND RESULT\n!!!!{result}")
-    print(type(class_names))
+    # print(f"SECOND RESULT\n!!!!{result}")
+    # print(type(class_names))
     print("Found %d objects." % len(result["detection_scores"]))
     print("Inference time: ", end_time-start_time)
     # print(f"results:{result}")
@@ -84,13 +84,10 @@ def root():
         # convert base64 file into jpg before feeding into the model
         import base64
 
-        image = open('file', 'rb')
-        image_read = image.read()
-        image_64_encode = base64.encodestring(image_read)
-        image_64_decode = base64.decodestring(image_64_encode)
-        # create a writable image and write the decoding result
-        image_result = open('deer_decode.gif', 'wb')
-        image_result.write(image_64_decode)
+        imgdata = base64.b64decode(file)
+        filename = 'some_image.jpg'  # I assume you have a way of picking unique filenames
+        with open(filename, 'wb') as f:
+            f.write(imgdata)
 
     # AI black magic stuff
     # @param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
@@ -98,10 +95,11 @@ def root():
     module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
 
     detector = hub.load(module_handle).signatures['default']
+    jpg_file_img = JPG_resize_image(filename, 256, 256, True)
 
-    run_detector(detector, image_result)
+    run_detector(detector, jpg_file_img)
 # return {image: base64, items: [bottle, bottle, bottle, clothes]}
-
+# LIST OF Recycle Items: plastic_bag, bottles, Wine glass, Tin can
 
 if __name__ == "__main__":
     app.run(port=5500)

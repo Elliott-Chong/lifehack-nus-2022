@@ -34,18 +34,18 @@ def display_image(image):
     plt.imshow(image)
 
 
-def display_json(image, dictionary):
-    fig = plt.figure(figsize=(20, 15))
-    plt.grid(False)
-    plt.imshow(image)
-    plt.savefig('Selected_image.png')
-    with open('Selected_image.png', mode='rb') as file:
-        img = file.read()
-    dictionary['image'] = base64.encodebytes(img).decode('utf-8')
-    # with open('result.json', 'w') as fp:
-    #   json.dump(dictionary, fp)
-    print(f'THis is displaying the displayjson:{dictionary}')
-    return dictionary
+def display_json(image,dictionary):
+  fig = plt.figure(figsize=(20, 15))
+  plt.grid(False)
+  plt.imshow(image)
+  plt.savefig('Selected_image.png')
+  with open('Selected_image.png', mode='rb') as file:
+    img = file.read()
+  dictionary['image'] = base64.encodebytes(img).decode('utf-8')
+  # with open('result.json', 'w') as fp:
+  #   json.dump(dictionary, fp)
+  print(f'THis is displaying the display json:{dictionary}')
+  return dictionary
 
 
 def download_and_resize_image(url, new_width=256, new_height=256,

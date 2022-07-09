@@ -6,7 +6,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 import { useGlobalContext } from "../context";
 import Navbar from "../components/Navbar";
-import customerMarker from "../components/Marker";
+import data from "../data/stash.json";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoidWx0cmFyYXB0b3IiLCJhIjoiY2t0cGo5aThxMGFxMzJybXBiNmZ3bWY4eSJ9.q24IUWxYYm6DhTDn5pY2Rg";
 
@@ -23,9 +24,6 @@ function map() {
   const [timestamp, setTimeStamp] = useState(0);
   const [maxPitch, setMaxPitch] = useState(65);
   const [minPitch, setMinPitch] = useState(35);
-  const zoomMap = (e) => {
-    alert("daddy");
-  };
   useEffect(() => {
     const location = window.navigator && window.navigator.geolocation;
 
@@ -62,7 +60,7 @@ function map() {
       // trackUserLocation: true,
       // Draw an arrow next to the location dot to indicate which direction the device is heading.
       trackUserLocation: true,
-      showUserHeading: true,
+      showUserHeading: false,
       showAccuracyCircle: true,
     });
     map.addControl(geoLocate);
@@ -86,15 +84,46 @@ function map() {
       map["boxZoom"].disable();
     });
     const player = document.createElement("div");
-    player.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/910885868733087747/995388685740679168/Yellow_corn-1.png)`;
-    player.style.width = `100px`;
-    player.style.aspectRatio = `4/3`;
+    player.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/995303058131128371/995417061041901568/Yellow_Corn_2.png)`;
+    player.id = `player`;
+    player.style.minWidth = `10px`;
+    player.style.maxWidth = `50px`;
+    player.style.width = `10vw`;
+    player.style.aspectRatio = `3/4`;
     player.style.backgroundSize = `100%`;
     player.style.zIndex = `99`;
-    const marker = new mapboxgl.Marker(player, { anchor: "bottom" })
-      .setLngLat([103.7966348, 1.4302973])
-      .addTo(map);
-    console.log(marker);
+    if (location) {
+      location.getCurrentPosition(
+        (position) => {
+          player.dataset.lng = position.coords.longitude;
+          player.dataset.lat = position.coords.latitude;
+          const marker = new mapboxgl.Marker(player, { anchor: "bottom" })
+            .setLngLat([position.coords.longitude, position.coords.latitude])
+            .addTo(map);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+    for (var points of data) {
+      const treasure = document.createElement("div");
+      treasure.className = "chest";
+      treasure.style.minWidth = `75px`;
+      treasure.style.maxWidth = `100px`;
+      treasure.style.width = `10vw`;
+      treasure.style.aspectRatio = `4/3`;
+      treasure.style.backgroundSize = `100%`;
+      treasure.style.zIndex = `98`;
+      treasure.dataset.lng = points.lng;
+      treasure.dataset.lat = points.lat;
+      treasure.addEventListener("click", () => {
+        alert(points.lng);
+      });
+      new mapboxgl.Marker(treasure, { anchor: "bottom" })
+        .setLngLat([points.lng, points.lat])
+        .addTo(map);
+    }
   });
   return (
     <div>
@@ -138,7 +167,6 @@ function map() {
         <div
           ref={mapContainer}
           className="map"
-          onWheel={zoomMap}
           // style="width: 400px; height: 300px;"
         />
       </div>
