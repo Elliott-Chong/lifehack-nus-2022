@@ -11,11 +11,12 @@ import { useGlobalContext } from "../context";
 function Navbar() {
   const { dispatch, state } = useGlobalContext();
   React.useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    let yes = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch({ type: "set_user", payload: user });
       }
     });
+    return yes;
   }, []);
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();

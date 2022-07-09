@@ -1,9 +1,16 @@
 import Image from "next/image";
 import Navbar from "../components/Navbar";
 import { useGlobalContext } from "../context";
+import Webcam from "react-webcam";
 
 export default function Home() {
   const { state } = useGlobalContext();
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    facingMode: "user",
+  };
+
   return (
     <>
       <Navbar />
@@ -24,6 +31,29 @@ export default function Home() {
             </div>
           </>
         )}
+        <Webcam
+          audio={false}
+          height={260}
+          className="mt-5"
+          screenshotFormat="image/jpeg"
+          // width={1280}
+          // videoConstraints={videoConstraints}
+        >
+          {({ getScreenshot }) => (
+            <button
+              className="px-4 py-2 text-center mt-2 bg-btn-green rounded-md shadow-md hover:shadow-lg cursor-pointer"
+              onClick={() => {
+                if (!state.user) {
+                  alert("Please sign in first!");
+                  return;
+                }
+                const imageSrc = getScreenshot();
+              }}
+            >
+              Capture photo
+            </button>
+          )}
+        </Webcam>
       </main>
     </>
   );

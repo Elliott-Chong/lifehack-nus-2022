@@ -1,43 +1,45 @@
 import Head from "next/head";
+import Image from "next/image";
 import React, { useRef, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
-
+import { useGlobalContext } from "../context";
+import Navbar from "../components/Navbar";
 mapboxgl.accessToken =
   "pk.eyJ1IjoidWx0cmFyYXB0b3IiLCJhIjoiY2t0cGo5aThxMGFxMzJybXBiNmZ3bWY4eSJ9.q24IUWxYYm6DhTDn5pY2Rg";
-function rotateCamera(map, timestamp) {
-  // clamp the rotation between 0 -360 degrees
-  // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
-  map.rotateTo((timestamp / 100) % 360, { duration: 0 });
-  // Request the next frame of the animation.
-  requestAnimationFrame(rotateCamera);
-}
-function x() {
+
+function map() {
+  const {
+    state: { user },
+  } = useGlobalContext();
   const mapContainer = useRef(null);
-  const [lng, setLng] = useState(-119.99959421984575);
-  const [lat, setLat] = useState(38.619551620333496);
-  const [zoom, setZoom] = useState(14);
+  const [lng, setLng] = useState(103.8647296);
+  const [lat, setLat] = useState(1.3336576);
+  const [zoom, setZoom] = useState(15);
   useEffect(() => {
+    const location = window.navigator && window.navigator.geolocation;
+
+    if (location) {
+      location.getCurrentPosition(
+        (position) => {
+          setLat(position.coords.latitude);
+          setLng(position.coords.longitude);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v10",
       center: [lng, lat],
-      pitch: 60,
-      antialias: true,
-      bearing: 80,
+      pitch: 10,
+      bearing: 0,
       zoom: zoom,
-      tileSize: 512,
-      maxZoom: 16,
     });
     map.on("load", () => {
-      rotateCamera(map, 0);
-      map.addSource("mapbox-dem", {
-        type: "raster-dem",
-        url: "mapbox://mapbox.mapbox-terrain-dem-v1",
-        tileSize: 512,
-        // maxZoom: 16,
-      });
-      map.setTerrain({ source: "mapbox-dem", exaggeration: 1.5 });
+      // rotateCamera(0);
       map.addLayer({
         id: "sky",
         type: "sky",
@@ -47,6 +49,20 @@ function x() {
           "sky-atmosphere-sun-intensity": 15,
         },
       });
+    });
+    var geoLocate = new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      // When active the map will receive updates to the device's location as it changes.
+      trackUserLocation: true,
+      // Draw an arrow next to the location dot to indicate which direction the device is heading.
+      showUserHeading: false,
+    });
+    map.addControl(geoLocate);
+    geoLocate.on("geolocate", function (e) {
+      console.log("geolocated");
+      map.setZoom(zoom);
     });
   });
   return (
@@ -61,8 +77,28 @@ function x() {
           rel="stylesheet"
         />
       </Head>
+      <Navbar />
       <div>
-        <div>daddy</div>
+        {user && (
+          <div
+            id="menu"
+            className="absolute top-15 left-0 z-40 py-4 px-8 flex flex-col bg-light-green"
+          >
+            <div id="profile" className="flex flex-col gap-2 items-center">
+              <Image
+                width={100}
+                height={100}
+                className="rounded-full"
+                src={user.photoURL}
+              />
+              <h1 className="font-noteworthy text-xl font-bold">
+                {user.displayName}
+              </h1>
+            </div>
+            <div id="treasured"></div>
+            <div id="inventory"></div>
+          </div>
+        )}
         <div
           ref={mapContainer}
           className="map"
@@ -73,4 +109,4 @@ function x() {
   );
 }
 
-export default x;
+export default map;

@@ -13,7 +13,8 @@
     "mapbox-gl": "^2.9.1",
     "next": "12.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-webcam": "^7.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
