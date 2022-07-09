@@ -18,6 +18,8 @@ function x() {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
+      pitch: 60,
+      antialias: true,
       zoom: zoom,
     });
   });
