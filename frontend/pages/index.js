@@ -1,4 +1,5 @@
 import Image from "next/image";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useGlobalContext } from "../context";
 import Webcam from "react-webcam";
@@ -31,7 +32,7 @@ export default function Home() {
             </div>
           </>
         )}
-        {/* <Webcam
+        <Webcam
           audio={false}
           height={260}
           className="mt-5"
@@ -42,18 +43,28 @@ export default function Home() {
           {({ getScreenshot }) => (
             <button
               className="px-4 py-2 text-center mt-2 bg-btn-green rounded-md shadow-md hover:shadow-lg cursor-pointer"
-              onClick={() => {
+              onClick={async () => {
                 if (!state.user) {
                   alert("Please sign in first!");
                   return;
                 }
                 const imageSrc = getScreenshot();
+                console.log(imageSrc);
+                const body = JSON.stringify(imageSrc);
+                const config = {
+                  headers: { "Content-Type": "application/json" },
+                };
+                const response = await axios.post(
+                  "http://localhost:5000",
+                  body,
+                  config
+                );
               }}
             >
               Capture photo
             </button>
           )}
-        </Webcam> */}
+        </Webcam>
       </main>
     </>
   );
