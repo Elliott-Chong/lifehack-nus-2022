@@ -15,6 +15,8 @@ const reducer = (state, action) => {
           email,
         },
       };
+    case "logout":
+      return { ...state, user: null };
     default:
       return state;
   }

@@ -8,6 +8,8 @@ module.exports = {
     extend: {
       fontFamily: {
         noteworthy: ["noteworthy", "monospace"],
+        mono: ["Space Mono", "monospace"],
+        sans: ["DM Sans", "sans-serif"],
       },
       colors: {
         "light-green": "#ACBC8A",
