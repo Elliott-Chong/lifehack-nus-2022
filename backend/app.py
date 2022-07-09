@@ -77,6 +77,7 @@ def root():
     if request.method == "GET": return {'hello':'world'}
     if request.method == "POST":
         file = request.json.file
+        print(f"file:{file}")
         # file is base64 string of the uploaded image
 
         # convert base64 file into jpg before feeding into the model
