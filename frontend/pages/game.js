@@ -1,10 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
 import React, { useRef, useEffect, useState } from "react";
+// import requestAnimationFrame from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "!mapbox-gl"; // or "const mapboxgl = require('mapbox-gl');"
 import { useGlobalContext } from "../context";
 import Navbar from "../components/Navbar";
+import customerMarker from "../components/Marker";
 mapboxgl.accessToken =
   "pk.eyJ1IjoidWx0cmFyYXB0b3IiLCJhIjoiY2t0cGo5aThxMGFxMzJybXBiNmZ3bWY4eSJ9.q24IUWxYYm6DhTDn5pY2Rg";
 
@@ -13,15 +15,23 @@ function map() {
     state: { user },
   } = useGlobalContext();
   const mapContainer = useRef(null);
-  const [lng, setLng] = useState(103.8647296);
-  const [lat, setLat] = useState(1.3336576);
-  const [zoom, setZoom] = useState(15);
+  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(0);
+  const [zoom, setZoom] = useState(18);
+  const [pitch, setPitch] = useState(50);
+  const [bearing, setBearing] = useState(0);
+  const [timestamp, setTimeStamp] = useState(0);
+  const [maxPitch, setMaxPitch] = useState(65);
+  const [minPitch, setMinPitch] = useState(35);
+
   useEffect(() => {
     const location = window.navigator && window.navigator.geolocation;
 
     if (location) {
       location.getCurrentPosition(
         (position) => {
+          console.log(position.coords.latitude);
+          console.log(position.coords.longitude);
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
         },
@@ -32,14 +42,35 @@ function map() {
     }
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/light-v10",
+      style: "mapbox://styles/mapbox/outdoors-v11",
       center: [lng, lat],
-      pitch: 10,
-      bearing: 0,
+      pitch: pitch,
+      bearing: bearing,
       zoom: zoom,
+      minPitch: minPitch,
+      maxPitch: maxPitch,
+    });
+
+    var geoLocate = new mapboxgl.GeolocateControl({
+      fitBoundsOptions: {
+        maxZoom: zoom,
+      },
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      // When active the map will receive updates to the device's location as it changes.
+      // trackUserLocation: true,
+      // Draw an arrow next to the location dot to indicate which direction the device is heading.
+      trackUserLocation: true,
+      showUserHeading: true,
+      showAccuracyCircle: true,
+    });
+    map.addControl(geoLocate);
+    geoLocate.on("geolocate", function () {
+      map.setZoom(zoom);
     });
     map.on("load", () => {
-      // rotateCamera(0);
+      geoLocate.trigger();
       map.addLayer({
         id: "sky",
         type: "sky",
@@ -49,21 +80,20 @@ function map() {
           "sky-atmosphere-sun-intensity": 15,
         },
       });
+      map["scrollZoom"].disable();
+      map["dragPan"].disable();
+      map["doubleClickZoom"].disable();
+      map["boxZoom"].disable();
     });
-    var geoLocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      // When active the map will receive updates to the device's location as it changes.
-      trackUserLocation: true,
-      // Draw an arrow next to the location dot to indicate which direction the device is heading.
-      showUserHeading: false,
-    });
-    map.addControl(geoLocate);
-    geoLocate.on("geolocate", function (e) {
-      console.log("geolocated");
-      map.setZoom(zoom);
-    });
+    const player = document.createElement("div");
+    player.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/910885868733087747/995382719108358154/Yellow_corn.png)`;
+    player.style.width = `300px`;
+    player.style.height = `200px`;
+    player.style.backgroundSize = `100%`;
+    player.style.zIndex = `99`;
+    const marker = new mapboxgl.Marker(player)
+      .setLngLat([103.7966348, 1.4302973])
+      .addTo(map);
   });
   return (
     <div>
@@ -98,7 +128,7 @@ function map() {
             <div id="treasured">
               <h1 className="text-xl font-bold font-noteworthy">Treasured:</h1>
               <div className="grid grid-cols-4 gap-4">
-                <Image src="../public/images/Bottle_Icon.png" />
+                <Image width={50} height={50} src="/images/Bottle_Icon.png" />
               </div>
             </div>
             <div id="inventory"></div>

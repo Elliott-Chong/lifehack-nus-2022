@@ -1,5 +1,20 @@
 const initialState = {
   user: null,
+  treasured: [
+    { name: "bottle", count: 3 },
+    { name: "shirt", count: 5 },
+  ],
+  inventory: [
+    { name: "bottle", count: 10 },
+    { name: "bottle", count: 10 },
+    { name: "bottle", count: 10 },
+    { name: "bottle", count: 10 },
+    { name: "bottle", count: 10 },
+    { name: "bottle", count: 10 },
+    { name: "bottle", count: 10 },
+    { name: "shirt", count: 56 },
+    { name: "shirt", count: 56 },
+  ],
 };
 
 const reducer = (state, action) => {
