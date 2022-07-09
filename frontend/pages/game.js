@@ -82,12 +82,12 @@ function map() {
         {user && (
           <div
             id="menu"
-            className="absolute top-15 left-0 z-40 py-4 px-8 flex flex-col bg-light-green"
+            className="absolute top-15 gap-6 left-0 z-40 py-4 px-8 flex flex-col bg-light-green"
           >
             <div id="profile" className="flex flex-col gap-2 items-center">
               <Image
-                width={100}
-                height={100}
+                width={120}
+                height={120}
                 className="rounded-full"
                 src={user.photoURL}
               />
@@ -95,7 +95,12 @@ function map() {
                 {user.displayName}
               </h1>
             </div>
-            <div id="treasured"></div>
+            <div id="treasured">
+              <h1 className="text-xl font-bold font-noteworthy">Treasured:</h1>
+              <div className="grid grid-cols-4 gap-4">
+                <Image src="../public/images/Bottle_Icon.png" />
+              </div>
+            </div>
             <div id="inventory"></div>
           </div>
         )}

@@ -31,7 +31,7 @@ export default function Home() {
             </div>
           </>
         )}
-        <Webcam
+        {/* <Webcam
           audio={false}
           height={260}
           className="mt-5"
@@ -53,7 +53,7 @@ export default function Home() {
               Capture photo
             </button>
           )}
-        </Webcam>
+        </Webcam> */}
       </main>
     </>
   );
