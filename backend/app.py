@@ -71,37 +71,15 @@ def run_detector(detector, path):
 
 app = Flask(__name__)
 
-
 @app.route('/', methods=["GET", "POST"])
 def root():
-    if request.method == "GET": return {'hello':'world'}
-    if request.method == "POST":
+    if request.method == "GET":
+        return {'plastic': 2, 'clothings': 5, 'bottles': 9, 'human_hand': 0}
+    elif request.method == "POST":
         file = request.json.file
-        # file is base64 string of the uploaded image
-
-        # convert base64 file into jpg before feeding into the model
-        import base64
-
-        image = open('file', 'rb')
-        image_read = image.read()
-        image_64_encode = base64.encodestring(image_read)
-        image_64_decode = base64.decodestring(image_64_encode)
-        # create a writable image and write the decoding result
-        image_result = open('deer_decode.gif', 'wb')
-        image_result.write(image_64_decode)
-
-    # AI black magic stuff
-    # @param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
-    # @returns [detector, class_names]
-    module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
-
-    detector = hub.load(module_handle).signatures['default']
-
-    run_detector(detector, image_result)
-# return {image: base64, items: [bottle, bottle, bottle, clothes]}
-
-
+        # AI black magic stuff
+        # return {plastic: 2, clothings: 5, bottles: 9, human_hand: 0}
+        
 if __name__ == "__main__":
     app.run(port=5500)
 
-# Put my code here?
