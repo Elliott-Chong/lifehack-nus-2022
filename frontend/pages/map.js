@@ -106,6 +106,31 @@ function map() {
         }
       );
     }
+    function distance(lat1, lat2, lon1, lon2) {
+      // The math module contains a function
+      // named toRadians which converts from
+      // degrees to radians.
+      lon1 = (lon1 * Math.PI) / 180;
+      lon2 = (lon2 * Math.PI) / 180;
+      lat1 = (lat1 * Math.PI) / 180;
+      lat2 = (lat2 * Math.PI) / 180;
+
+      // Haversine formula
+      let dlon = lon2 - lon1;
+      let dlat = lat2 - lat1;
+      let a =
+        Math.pow(Math.sin(dlat / 2), 2) +
+        Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
+
+      let c = 2 * Math.asin(Math.sqrt(a));
+
+      // Radius of earth in kilometers. Use 3956
+      // for miles
+      let r = 6371;
+
+      // calculate the result
+      return c * r;
+    }
     for (var points of data) {
       const treasure = document.createElement("div");
       treasure.className = "chest";
@@ -118,7 +143,17 @@ function map() {
       treasure.dataset.lng = points.lng;
       treasure.dataset.lat = points.lat;
       treasure.addEventListener("click", () => {
-        alert(points.lng);
+        var pointDist = distance(
+          document.getElementById("player").dataset.lat,
+          points.lat,
+          document.getElementById("player").dataset.lng,
+          points.lng
+        );
+        if (pointDist <= 0.02) {
+          alert("ok");
+        }
+        // alert(document.getElementById("player").dataset.lng);
+        // alert(points.lng);
       });
       new mapboxgl.Marker(treasure, { anchor: "bottom" })
         .setLngLat([points.lng, points.lat])
