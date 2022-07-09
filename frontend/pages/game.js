@@ -30,8 +30,6 @@ function map() {
     if (location) {
       location.getCurrentPosition(
         (position) => {
-          console.log(position.coords.latitude);
-          console.log(position.coords.longitude);
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
         },
@@ -86,14 +84,15 @@ function map() {
       map["boxZoom"].disable();
     });
     const player = document.createElement("div");
-    player.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/910885868733087747/995382719108358154/Yellow_corn.png)`;
-    player.style.width = `300px`;
-    player.style.height = `200px`;
+    player.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/910885868733087747/995388685740679168/Yellow_corn-1.png)`;
+    player.style.width = `100px`;
+    player.style.aspectRatio = `4/3`;
     player.style.backgroundSize = `100%`;
     player.style.zIndex = `99`;
-    const marker = new mapboxgl.Marker(player)
+    const marker = new mapboxgl.Marker(player, { anchor: "bottom" })
       .setLngLat([103.7966348, 1.4302973])
       .addTo(map);
+    console.log(marker);
   });
   return (
     <div>
