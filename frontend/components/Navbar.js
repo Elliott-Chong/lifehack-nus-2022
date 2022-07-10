@@ -72,11 +72,11 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link href="/game">
+              {/* <Link href="/game">
                 <a className="px-4 py-2 hidden md:inline text-center bg-btn-green rounded-md shadow-md hover:shadow-lg cursor-pointer">
                   Game
                 </a>
-              </Link>
+              </Link> */}
               <a
                 onClick={(e) => {
                   e.preventDefault();

@@ -137,14 +137,6 @@ function game() {
               style={{ transform: "scaleX(-1)" }}
             />
           </div>
-          {/* <div className="bottle">
-            <img
-              src={
-                "https://cdn.discordapp.com/attachments/995303058131128371/995508460772921414/Plastic_Bottle.png"
-              }
-            />
-          </div> */}
-
           <div
             id="player"
             style={
