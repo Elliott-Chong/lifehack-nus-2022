@@ -34,6 +34,10 @@ function Navbar() {
   return (
     <div>
       <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+        />
         <title>A Unicorn's Treasure</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>

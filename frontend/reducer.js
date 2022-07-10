@@ -1,20 +1,7 @@
 const initialState = {
   user: null,
-  treasured: [
-    { name: "bottle", count: 3 },
-    { name: "shirt", count: 5 },
-  ],
-  inventory: [
-    { name: "bottle", count: 10 },
-    { name: "bottle", count: 10 },
-    { name: "bottle", count: 10 },
-    { name: "bottle", count: 10 },
-    { name: "bottle", count: 10 },
-    { name: "bottle", count: 10 },
-    { name: "bottle", count: 10 },
-    { name: "shirt", count: 56 },
-    { name: "shirt", count: 56 },
-  ],
+  treasured: [],
+  inventory: [],
 };
 
 const reducer = (state, action) => {
@@ -32,24 +19,25 @@ const reducer = (state, action) => {
       };
     case "logout":
       return { ...state, user: null };
-    case 'update_inventory':
-      const {items_detected} = payload
+    case "update_inventory":
+      const { Class_names_identified } = payload;
 
       // [shirt, bottle, bottle]
-// items = [{name: shirt, count: 1}, {name: bottle, count: 2}]
-let items = []
-for (let item of items_detected) {
-  if (items.any(i => i.name == item)) {
-    for (let i of items) {
-      if (i.name == item) {
-        i.count++
+      // items = [{name: shirt, count: 1}, {name: bottle, count: 2}]
+      let items = [];
+      for (let item of Class_names_identified) {
+        if (items.some((i) => i.name == item)) {
+          for (let i of items) {
+            if (i.name == item) {
+              i.count++;
+            }
+          }
+        } else {
+          items.push({ name: item, count: 1 });
+        }
       }
-    }
 
-  }
-}
-
-      return {...state, inventory: items}
+      return { ...state, inventory: items };
     default:
       return state;
   }

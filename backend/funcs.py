@@ -44,7 +44,6 @@ def display_json(image,dictionary):
   dictionary['image'] = base64.encodebytes(img).decode('utf-8')
   # with open('result.json', 'w') as fp:
   #   json.dump(dictionary, fp)
-  print(f'THis is displaying the display json:{dictionary}')
   return dictionary
 
 
@@ -68,8 +67,9 @@ def download_and_resize_image(url, new_width=256, new_height=256,
 def JPG_resize_image(path, new_width=256, new_height=256,
                      display=False):
     _, filename = tempfile.mkstemp(suffix=".jpg")
-
-    pil_image = Image.open(path)
+    image_data = path.read()
+    print(f'image_Data:{image_data}')
+    pil_image = Image.open(BytesIO(image_data))
     pil_image = ImageOps.fit(
         pil_image, (new_width, new_height), Image.ANTIALIAS)
     pil_image_rgb = pil_image.convert("RGB")
@@ -160,7 +160,6 @@ def draw_boxes(image, boxes, class_names, scores, max_boxes=10, min_score=0.5):
     json_dict = {'Class_names_identified': detection_class_entities}
     with open('result.json', 'w') as fp:
         json.dump(json_dict, fp)
-    print(f'json_dict:{json_dict}')
 
     return image, json_dict
 
@@ -188,14 +187,10 @@ def run_detector(detector, path):
 
     result = {key: value.numpy() for key, value in result.items()}
 
-    print(type(result))
     # output_json_2(result)
-    print(f"SECOND RESULT\n!!!!{result}")
-    print(type(class_names))
     print("Found %d objects." % len(result["detection_scores"]))
     print("Inference time: ", end_time-start_time)
     # print(f"results:{result}")
-    print(f"class_names:{class_names}")
     image_with_boxes, dictionary = draw_boxes(
         img.numpy(), result["detection_boxes"],
         result["detection_class_entities"], result["detection_scores"])

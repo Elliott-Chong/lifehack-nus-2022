@@ -1,16 +1,18 @@
 import Image from "next/image";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import React from "react";
 import { useGlobalContext } from "../context";
 import Webcam from "react-webcam";
 
 export default function Home() {
-  const { state ,dispatch} = useGlobalContext();
+  const { state, dispatch } = useGlobalContext();
   const videoConstraints = {
     width: 1280,
     height: 720,
     facingMode: "user",
   };
+  const [rectImg, setRectImg] = React.useState(null);
 
   return (
     <>
@@ -60,13 +62,15 @@ export default function Home() {
                   config
                 );
                 console.log(response.data);
-                dispatch({type:'update_inventory', payload:response.data})
+                dispatch({ type: "update_inventory", payload: response.data });
+                setRectImg(response.data.image);
               }}
             >
               Capture photo
             </button>
           )}
         </Webcam>
+        {rectImg && <img src={rectImg} />}
       </main>
     </>
   );

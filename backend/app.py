@@ -2,7 +2,7 @@
 from flask import *
 from flask_cors import CORS
 
-
+import io
 from funcs import display_image, display_json, download_and_resize_image, JPG_resize_image, draw_bounding_box_on_image, draw_boxes, test
 import tensorflow as tf
 
@@ -80,21 +80,25 @@ def root():
     if request.method == "GET":
         return {'plastic': 2, 'clothings': 5, 'bottles': 9, 'human_hand': 0}
     elif request.method == "POST":
-        imgstring = request.json['file']
-        return {'image': 'lsdkf;ajsd', 'items_detected': ['shirt', 'shirt', 'bottle']}
+        print('inside POST')
+        # imgstring = request.json['file']
+        # print('ah', type(imgstring))
+        # return {'image': 'lsdkf;ajsd', 'items_detected': ['shirt', 'shirt', 'die', 'die', 'bottle']}
 
-        # # Convert base64 string to image in temporary file 
+        # # Convert base64 string to image in temporary file
         # imgdata = base64.b64decode(imgstring)
-        # print(imgdata)
-        # print(type(imgdata))
-        # _, filename2 = tempfile.mkstemp(suffix=".jpg",prefix=imgstring[5:10])
+        # print('FUCK',imgdata[0:5])
+        # print('sd', type(imgdata))
+        # _, filename2 = tempfile.mkstemp(
+        #     suffix=".jpg", prefix=imgstring[5:10], dir='./temp')
         # print(f"filename2:{filename2}")
         # # filename = 'some_image.jpg'  # I assume you have a way of picking unique filenames
-        # with open(filename2, 'wb') as f:
+        # with open('./temp/help.jpg', 'wb') as f:
         #     f.write(imgdata)
 
-        # JPG_resize_image(filename2,1000,700,display=True)
-
+        # print('after writing to file')
+        # print(f"filename2:{type(filename2)}")
+        # JPG_resize_image(filename2, 1280, 856, display=True)
 
     # AI black magic stuff
     # @param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
@@ -102,11 +106,15 @@ def root():
         module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
 
         detector = hub.load(module_handle).signatures['default']
-        # jpg_file_img = JPG_resize_image(filename2, 256, 256, True)
+
+        # jpg_file_img = JPG_resize_image(filename2, 1280, 856, display=True)
+
         print('dad')
         response = run_detector(
-            detector, 'https://github.com/Elliott-Chong/lifehack-nus-2022/blob/main/backend/Image_testdata/SHirt_bottle_test_2.jpeg')
-        print(response)
+            detector, './Image_testdata/SHirt_bottle_test_2.jpeg')
+        # response = run_detector(
+        #     detector, filename2)
+        # print(response)
         return response
 # return {image: base64, items: [bottle, bottle, bottle, clothes]}
 # LIST OF Recycle Items: plastic_bag, bottles, Wine glass, Tin can

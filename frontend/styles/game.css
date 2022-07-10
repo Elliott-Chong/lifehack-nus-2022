@@ -2,6 +2,7 @@
   width: 100vw;
   height: calc(100vh - 56px);
 }
+
 @font-face {
   font-family: "noteworthy";
   src: url("../public/Noteworthy-Lt.ttf");
@@ -57,18 +58,95 @@ html {
   aspect-ratio: 16/9;
   position: relative;
 }
-#gameContainer > * {
-  transform: rotate(-90deg);
+
+#gameContainer > *:not(#buttons) {
   position: absolute;
-  width: 100px;
+  width: 75px;
 }
 
-@media only screen and (max-width: 620px) {
+#buttons {
+  display: none;
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  height: 30px;
+}
+
+#buttons > * {
+  aspect-ratio: 1;
+  font-size: 30px;
+}
+
+#gameContainer img {
+  aspect-ratio: 3/4;
+}
+
+.bottle {
+  transform: scale(50%);
+}
+.bottleMoveLR {
+  animation: spin 500ms infinite linear, moveLR 1s linear;
+}
+.bottleMoveUD {
+  animation: spin 500ms infinite linear, moveUD 1s linear;
+}
+
+.racoonMoveLR {
+  animation: racoonLR linear;
+}
+
+@media only screen and (max-width: 640px) {
   #gameContainer {
     width: 100%;
     aspect-ratio: 9/16;
   }
-  #gameContainer > * {
-    transform: rotate(0);
+  #gameContainer > *:not(#buttons) {
+    width: 50px;
+  }
+}
+
+@keyframes racoonLR {
+  from {
+    left: 10%;
+  }
+  to {
+    left: 95%;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg) scale(50%);
+  }
+  to {
+    transform: rotate(360deg) scale(50%);
+  }
+}
+
+@keyframes moveLR {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 95%;
+  }
+}
+
+@keyframes moveUD {
+  from {
+    bottom: 20%;
+  }
+  to {
+    bottom: 90%;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  #buttons {
+    display: flex;
   }
 }
