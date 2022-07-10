@@ -5,7 +5,7 @@ import { useGlobalContext } from "../context";
 import Webcam from "react-webcam";
 
 export default function Home() {
-  const { state } = useGlobalContext();
+  const { state ,dispatch} = useGlobalContext();
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -49,16 +49,18 @@ export default function Home() {
                   return;
                 }
                 const imageSrc = getScreenshot();
-                console.log(imageSrc);
-                const body = JSON.stringify(imageSrc);
+                const body = JSON.stringify({ file: imageSrc });
                 const config = {
                   headers: { "Content-Type": "application/json" },
                 };
+                console.log("POSTING...");
                 const response = await axios.post(
                   "http://localhost:5000",
                   body,
                   config
                 );
+                console.log(response.data);
+                dispatch({type:'update_inventory', payload:response.data})
               }}
             >
               Capture photo

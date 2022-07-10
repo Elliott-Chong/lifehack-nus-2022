@@ -32,6 +32,24 @@ const reducer = (state, action) => {
       };
     case "logout":
       return { ...state, user: null };
+    case 'update_inventory':
+      const {items_detected} = payload
+
+      // [shirt, bottle, bottle]
+// items = [{name: shirt, count: 1}, {name: bottle, count: 2}]
+let items = []
+for (let item of items_detected) {
+  if (items.any(i => i.name == item)) {
+    for (let i of items) {
+      if (i.name == item) {
+        i.count++
+      }
+    }
+
+  }
+}
+
+      return {...state, inventory: items}
     default:
       return state;
   }

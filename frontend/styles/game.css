@@ -1,6 +1,6 @@
 .map {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 56px);
 }
 @font-face {
   font-family: "noteworthy";
@@ -37,4 +37,38 @@
   background-image: url("https://cdn.discordapp.com/attachments/995303058131128371/995415041669075056/Open_Chest_2.png");
   -webkit-transition: background-image 0.2s ease;
   transition: background-image 0.2s ease;
+}
+
+html {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#game {
+  height: calc(100vh - 56px);
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+
+#gameContainer {
+  width: 70%;
+  background-color: pink;
+  aspect-ratio: 16/9;
+  position: relative;
+}
+#gameContainer > * {
+  transform: rotate(-90deg);
+  position: absolute;
+  width: 100px;
+}
+
+@media only screen and (max-width: 620px) {
+  #gameContainer {
+    width: 100%;
+    aspect-ratio: 9/16;
+  }
+  #gameContainer > * {
+    transform: rotate(0);
+  }
 }

@@ -12,12 +12,11 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoidWx0cmFyYXB0b3IiLCJhIjoiY2t0cGo5aThxMGFxMzJybXBiNmZ3bWY4eSJ9.q24IUWxYYm6DhTDn5pY2Rg";
 
 function map() {
-  const {
-    state: { user },
-  } = useGlobalContext();
+  const { state } = useGlobalContext();
+  const { user } = state;
   const mapContainer = useRef(null);
-  const [lng, setLng] = useState(0);
   const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const [zoom, setZoom] = useState(18);
   const [pitch, setPitch] = useState(50);
   const [bearing, setBearing] = useState(0);
@@ -83,9 +82,10 @@ function map() {
       map["doubleClickZoom"].disable();
       map["boxZoom"].disable();
     });
+
     const player = document.createElement("div");
     player.style.backgroundImage = `url(https://cdn.discordapp.com/attachments/995303058131128371/995417061041901568/Yellow_Corn_2.png)`;
-    player.id = `player`;
+    player.id = `playerChar`;
     player.style.minWidth = `10px`;
     player.style.maxWidth = `50px`;
     player.style.width = `10vw`;
@@ -106,6 +106,7 @@ function map() {
         }
       );
     }
+
     function distance(lat1, lat2, lon1, lon2) {
       // The math module contains a function
       // named toRadians which converts from
@@ -144,40 +145,29 @@ function map() {
       treasure.dataset.lat = points.lat;
       treasure.addEventListener("click", () => {
         var pointDist = distance(
-          document.getElementById("player").dataset.lat,
+          document.getElementById("playerChar").dataset.lat,
           points.lat,
-          document.getElementById("player").dataset.lng,
+          document.getElementById("playerChar").dataset.lng,
           points.lng
         );
         if (pointDist <= 0.02) {
-          alert("ok");
+          // Make Game Here
+          window.location.href = "./game";
         }
-        // alert(document.getElementById("player").dataset.lng);
-        // alert(points.lng);
       });
       new mapboxgl.Marker(treasure, { anchor: "bottom" })
         .setLngLat([points.lng, points.lat])
         .addTo(map);
     }
-  });
+  }, [lat, lng]);
   return (
     <div>
-      <Head>
-        <title>A Unicorn's Adventure</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
-
-        <link
-          href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
-          rel="stylesheet"
-        />
-      </Head>
       <Navbar />
-      <div>
+      <div id="gameBody">
         {user && (
           <div
             id="menu"
-            className="absolute top-15 gap-6 left-0 z-40 py-4 px-8 flex flex-col bg-light-green"
+            className="absolute top-15 gap-6 left-0 z-40 py-4 px-8 flex flex-col h-screen bg-light-green"
           >
             <div id="profile" className="flex flex-col gap-2 items-center">
               <Image
@@ -193,17 +183,44 @@ function map() {
             <div id="treasured">
               <h1 className="text-xl font-bold font-noteworthy">Treasured:</h1>
               <div className="grid grid-cols-4 gap-4">
-                <Image width={50} height={50} src="/images/Bottle_Icon.png" />
+                {state.treasured.map((item) => {
+                  return (
+                    <span className="relative">
+                      <img
+                        width={40 * 1.33}
+                        height={40}
+                        src={`/images/${item.name}_Icon.png`}
+                      />
+                      <span className="game-icon-number-bottle">
+                        {item.count}
+                      </span>
+                    </span>
+                  );
+                })}
               </div>
             </div>
-            <div id="inventory"></div>
+            <div id="inventory">
+              <h1 className="text-xl font-bold font-noteworthy">Inventory:</h1>
+              <div className="grid grid-cols-4 gap-4">
+                {state.inventory.map((item) => {
+                  return (
+                    <span className="relative">
+                      <img
+                        width={40 * 1.33}
+                        height={40}
+                        src={`/images/${item.name}_Icon.png`}
+                      />
+                      <span className="game-icon-number-bottle">
+                        {item.count}
+                      </span>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
-        <div
-          ref={mapContainer}
-          className="map"
-          // style="width: 400px; height: 300px;"
-        />
+        <div ref={mapContainer} className="map" />
       </div>
     </div>
   );
