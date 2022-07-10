@@ -54,7 +54,7 @@ html {
 
 #gameContainer {
   width: 70%;
-  background-color: pink;
+  background-color: #578d7e;
   aspect-ratio: 16/9;
   position: relative;
 }
@@ -99,6 +99,7 @@ html {
   animation: racoonLR linear;
 }
 .racoonMoveUD {
+  animation: racoonUD linear;
 }
 
 @media only screen and (max-width: 640px) {
@@ -110,7 +111,6 @@ html {
     width: 50px;
   }
 }
-
 
 @keyframes racoonUD {
   from {

@@ -75,6 +75,19 @@ function Game() {
   }
 
   useEffect(() => {
+    // for (var i = 0; i < 3; i++) {
+    //   var racoon = document.createElement("div");
+    //   racoon.className = "racoon racoonMoveLR";
+    //   racoon.style.bottom = `${
+    //     Number(player.style.bottom.replace("%", "")) - 10 + "%"
+    //   }`;
+    //   var racoonImg = document.createElement("img");
+    //   racoonImg.src =
+    //     "https://cdn.discordapp.com/attachments/995303058131128371/995504328905338921/Raccoon.png";
+    //   racoonImg.style.transform = `scaleX(-1)`;
+    //   racoon.appendChild(racoonImg);
+    //   document.getElementById("gameContainer").appendChild(racoon);
+    // }
     setWidth(screen.width);
     document.getElementById("buttons").addEventListener("click", (e) => {
       keyPress(e.target.id);
@@ -112,21 +125,20 @@ function Game() {
             <i className="bi bi-arrow-right-circle-fill" id="right"></i>
           </div>
           <div
-            id="racoon"
-            className="racoonMoveLR"
+            className="racoon racoonMoveLR"
             style={
               width <= 640
                 ? {
                     transform: "translate(-50%)",
                     bottom: "20%",
                     left: "50%",
-                    animationDuration: Math.random() + 1 + "s",
+                    animationDuration: Math.random() + 3 + "s",
                   }
                 : {
                     transform: "translate(0, 50%)",
                     bottom: "50%",
                     left: "10%",
-                    animationDuration: Math.random() + 1 + "s",
+                    animationDuration: Math.random() + 3 + "s",
                   }
             }
           >

@@ -40,7 +40,7 @@ export default function Home() {
             height={200}
             className="mt-5 mx-auto"
             screenshotFormat="image/jpeg"
-            style={{ height: "700px" }}
+            style={{ height: "500px" }}
             // width={1280}
             // videoConstraints={videoConstraints}
           >
