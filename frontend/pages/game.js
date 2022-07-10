@@ -51,8 +51,8 @@ function Game() {
               }
             }
             if (document.querySelectorAll(".racoon").length <= 0) {
-              alert("end");
               clearInterval(divCheckingInterval);
+              window.location.href = "./map";
             }
           }, 100);
           setTimeout(() => {
@@ -104,7 +104,7 @@ function Game() {
               }
             }
             if (document.querySelectorAll(".racoon").length <= 0) {
-              alert("end");
+              window.location.href = "./map";
               clearInterval(divCheckingInterval);
             }
           }, 100);
