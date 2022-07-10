@@ -114,10 +114,10 @@ html {
 
 @keyframes racoonUD {
   from {
-    left: 10%;
+    bottom: 35%;
   }
   to {
-    left: 95%;
+    bottom: 95%;
   }
 }
 
