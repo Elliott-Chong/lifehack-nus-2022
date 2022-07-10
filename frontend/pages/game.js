@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 
-function game() {
+function Game() {
   const [width, setWidth] = useState();
   function keyPress(move) {
     var player = document.getElementById("player");
@@ -157,4 +157,4 @@ function game() {
   );
 }
 
-export default game;
+export default Game;

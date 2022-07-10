@@ -11,7 +11,7 @@ import data from "../data/stash.json";
 mapboxgl.accessToken =
   "pk.eyJ1IjoidWx0cmFyYXB0b3IiLCJhIjoiY2t0cGo5aThxMGFxMzJybXBiNmZ3bWY4eSJ9.q24IUWxYYm6DhTDn5pY2Rg";
 
-function map() {
+function Map() {
   const { state } = useGlobalContext();
   const { user } = state;
   const mapContainer = useRef(null);
@@ -183,9 +183,9 @@ function map() {
             <div id="treasured">
               <h1 className="text-xl font-bold font-noteworthy">Treasured:</h1>
               <div className="grid grid-cols-4 gap-4">
-                {state.treasured.map((item) => {
+                {state.treasured.map((item, idx) => {
                   return (
-                    <span className="relative">
+                    <span key={idx} className="relative">
                       <img
                         width={40 * 1.33}
                         height={40}
@@ -202,9 +202,9 @@ function map() {
             <div id="inventory">
               <h1 className="text-xl font-bold font-noteworthy">Inventory:</h1>
               <div className="grid grid-cols-4 gap-4">
-                {state.inventory.map((item) => {
+                {state.inventory.map((item, idx) => {
                   return (
-                    <span className="relative">
+                    <span key={idx} className="relative">
                       <img
                         width={40 * 1.33}
                         height={40}
@@ -226,4 +226,4 @@ function map() {
   );
 }
 
-export default map;
+export default Map;
