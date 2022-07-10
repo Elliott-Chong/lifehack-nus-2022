@@ -107,9 +107,9 @@ function Game() {
       <div id="game">
         <div id="gameContainer">
           <div id="buttons">
-            <i class="bi bi-arrow-left-circle-fill" id="left"></i>
-            <i class="bi bi-record-circle-fill" id="shoot"></i>
-            <i class="bi bi-arrow-right-circle-fill" id="right"></i>
+            <i className="bi bi-arrow-left-circle-fill" id="left"></i>
+            <i className="bi bi-record-circle-fill" id="shoot"></i>
+            <i className="bi bi-arrow-right-circle-fill" id="right"></i>
           </div>
           <div
             id="racoon"

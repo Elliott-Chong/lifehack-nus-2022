@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 import { auth } from "../firebase";
 import Link from "next/link";
+import Script from "next/script";
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -38,9 +39,12 @@ function Navbar() {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
         />
-        <title>A Unicorn's Treasure</title>
+        <title>A Unicorn&apos;s Treasure</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+        <script
+          src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"
+          defer
+        ></script>
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css"
           rel="stylesheet"
@@ -49,7 +53,7 @@ function Navbar() {
       <nav className="font-noteworthy flex-row sticky bg-white top-0 font-bold flex px-5 md:px-20 py-2 justify-between items-center">
         <Link href="/">
           <h1 className="md:text-3xl m-0 text-l cursor-pointer">
-            A Unicorn's Treasure
+            A Unicorn&apos;s Treasure
           </h1>
         </Link>
         <div className="md:ml-auto sm:m-0 flex-row flex gap-2">
